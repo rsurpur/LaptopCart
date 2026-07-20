@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Product>
+<p>This is Product Display page</p>
+<div class="row pb-3">
+    @foreach(var item in Model)
+    {
+        <div class="col-lg-4 col-sm-6">
+            <div class="card border-0 p-3 shadow border-top border-5 rounded card h-100">
+                @if (!string.IsNullOrEmpty(item.ImagePath))
+                {
+                    <img src="@Url.Content(item.ImagePath)" class="card-img-top rounded" alt="@item.Name" style="height: 250px;object-fit:cover;" />
+                }
+                 <div class="card-body">
+                    <h5 class="card-title text-dark text-uppercase text-center">@item.Name</h5>
+                    <p class="card-text text-center small">@item.Description</p>
+                    <p class="card-text"><strong>Price:</strong> @item.Price.ToString("C")</p>
+                </div> 
+                <div class="card-footer bg-white border-0 text-center">
+                    <p class="fw-bold fs-5 text-success mb-2">$@item.Price</p>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-dark w-100">Details</a>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
