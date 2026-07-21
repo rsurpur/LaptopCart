@@ -1,0 +1,17 @@
+﻿@*//Old Approatch to show the notifications
+ @if(TempData["success"] != null)
+{
+    <h2>@TempData["success"]</h2>
+} *@
+
+@*New way of showing notifications using Toastr*@
+
+@if (TempData["success"] != null)
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+    <script>
+        toastr.success('@TempData["success"]');
+    </script>
+}

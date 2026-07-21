@@ -2,6 +2,8 @@
 using LaptopCart.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LaptopCart.Controllers
@@ -63,6 +65,7 @@ namespace LaptopCart.Controllers
             {
                 _context.Products.Add(product);
                 await _context.SaveChangesAsync();
+                TempData["success"] = "Product Created successfully!";
                 return RedirectToAction("Index");
             }
             else
@@ -70,10 +73,15 @@ namespace LaptopCart.Controllers
                 return View(product);
             }
         }
-        [HttpPost]
-        public async Task<IActionResult> Edit(Product product)
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            var product = await _context.Products.FindAsync(id);
+            if (id == null || product == null)
+            {
+                return View();
+            }
+            return View(product);
         }
         public async Task<IActionResult> Delete(int id)
         {
@@ -84,16 +92,50 @@ namespace LaptopCart.Controllers
             }           
             return View(product);
         }
-        public async Task<IActionResult> Edit(int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Product product)
         {
-            Product product = await _context.Products.FindAsync(id);
-            if (id == null || product == null)
+            if (ModelState.IsValid)
             {
-                return View();
-            }
-            return View(product);
+                if (product.ImageFile != null && product.ImageFile.Length > 0)
+                {
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(product.ImageFile.FileName);
+                    var savePath = Path.Combine(_webHostEnvironment.WebRootPath, "images", fileName);
 
+                    var imagesDir = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                    if (!Directory.Exists(imagesDir))
+                    {
+                        Directory.CreateDirectory(imagesDir);
+                    }
+
+                    using (var stream = new FileStream(savePath, FileMode.Create))
+                    {
+                        await product.ImageFile.CopyToAsync(stream);
+                    }
+                    product.ImagePath = "/images/" + fileName;
+                }
+                else
+                {
+                    var existingProduct = await _context.Products.AsNoTracking()
+                        .FirstOrDefaultAsync(p => p.Id == product.Id);
+
+                    if (existingProduct != null)
+                    {
+                        product.ImagePath = existingProduct.ImagePath;
+                    }
+                }
+
+
+                _context.Products.Update(product);
+                await _context.SaveChangesAsync();
+                TempData["success"] = "Product updated successfully!";
+                return RedirectToAction("Index");
+            }
+
+            return View(product);
         }
+
         [HttpPost]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -111,6 +153,7 @@ namespace LaptopCart.Controllers
                 _context.Products.Remove(product);
                 await _context.SaveChangesAsync();
             }
+            TempData["success"] = "Record deleted successfully!";
             return RedirectToAction(nameof(Index));
         }
 

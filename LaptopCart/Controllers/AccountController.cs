@@ -26,6 +26,7 @@ namespace LaptopCart.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+
             if (!ModelState.IsValid) return View(model);
 
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
