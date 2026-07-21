@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace LaptopCart.Data
+namespace LaptopCart.Data.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Http
+﻿@using LaptopCart.Utility
+@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 <!DOCTYPE html>
 <html lang="en">
@@ -15,9 +16,9 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg bg-primary">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Product" asp-action="Index">LaptopCart</a>
+                <a class="navbar-brand text-white" asp-area="" asp-controller="Product" asp-action="Index">LaptopCart</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -25,18 +26,18 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Home</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Product" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="AdminProduct" asp-action="Index">View All Products</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="AdminProduct" asp-action="Index">View All Products</a>
                         </li>
                         @if (HttpContextAccessor.HttpContext.Session.GetInt32(Constants.SessionCart) != null)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Cart" asp-action="Index">
+                                <a class="nav-link text-white" asp-controller="Cart" asp-action="Index">
                                     <i class="bi bi-cart"></i> &nbsp;
                                     (@HttpContextAccessor.HttpContext.Session.GetInt32(Constants.SessionCart))
                                 </a>
@@ -56,11 +57,11 @@
                         @if(User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <span class="nav-link">Hello,  @User.Identity.Name</span>
+                                <span class="nav-link text-white">Hello,  @User.Identity.Name</span>
                              </li>
                              <li class="nav-item">
                                 <form method="post" asp-controller="Account" asp-action="Logout">
-                                    <button type="submit" class="btn btn-link nav-link">Logout</button>
+                                    <button type="submit" class="btn btn-link nav-link text-white">Logout</button>
                                 </form>
                             </li>
                         }

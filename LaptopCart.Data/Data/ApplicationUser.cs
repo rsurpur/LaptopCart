@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace LaptopCart.Data
+namespace LaptopCart.Data.Data
 {
     public class ApplicationUser : IdentityUser
     {

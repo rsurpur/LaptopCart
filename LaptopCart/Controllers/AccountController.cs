@@ -1,5 +1,5 @@
-﻿using LaptopCart.Data;
-using LaptopCart.ViewModels;
+﻿using LaptopCart.Data.Data;
+using LaptopCart.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace LaptopCart.Migrations
+namespace LaptopCart.Data.Migrations
 {
     /// <inheritdoc />
     public partial class CartItemsTableAdded : Migration

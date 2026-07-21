@@ -1,4 +1,4 @@
-using LaptopCart.Data;
+using LaptopCart.Data.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

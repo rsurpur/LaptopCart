@@ -1,4 +1,4 @@
-﻿namespace LaptopCart
+﻿namespace LaptopCart.Utility
 {
     public class Constants
     {

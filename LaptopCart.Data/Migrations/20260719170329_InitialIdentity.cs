@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace LaptopCart.Migrations
+namespace LaptopCart.Data.Migrations
 {
     /// <inheritdoc />
     public partial class InitialIdentity : Migration

@@ -1,5 +1,6 @@
-﻿using LaptopCart.Data;
+﻿using LaptopCart.Data.Data;
 using LaptopCart.Models;
+using LaptopCart.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
