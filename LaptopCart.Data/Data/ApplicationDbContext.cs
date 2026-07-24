@@ -11,7 +11,8 @@ namespace LaptopCart.Data.Data
         }
         public DbSet<Product> Products { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
 
-    }
+        }
 }
 

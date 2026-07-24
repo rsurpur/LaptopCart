@@ -1,0 +1,41 @@
+﻿@model List<CreateTicketViewModel>
+
+    <h2>Support Tickets</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Ticket ID</th>
+                <th>Subject</th>
+                <th>Description</th>
+                <th>Status</th>
+            <th>Actions</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ticket in Model)
+            {
+                <tr>
+                    <td>@ticket.Id</td>
+                    <td style="white-space: normal;" class="text-truncate">@ticket.Subject</td>
+                    <td style="white-space: normal;" class="text-truncate">@ticket.Description</td>
+                    <td>@ticket.Status</td>
+                    <td>@ticket.CreatedAt.ToString("g")</td>
+                    <td>
+                        <div class="d-flex gap-2 flex-nowrap">
+                            <a asp-action="Edit" asp-route-id="@ticket.Id" class="btn btn-sm btn-warning">
+                            <i class="bi bi-pencil"></i> Edit
+                            </a>
+                            @if(User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Delete" asp-route-id="@ticket.Id" class="btn btn-danger" onclick="return confirm('Are you Sure?');">
+                                <i class="bi bi-trash"></i> Delete
+                            </a>
+                        }
+
+                        </div>
+                    </td>
+                </tr>
+            }
+    </tbody>
+    </table>

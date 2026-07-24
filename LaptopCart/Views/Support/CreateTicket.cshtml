@@ -1,0 +1,37 @@
+﻿@model CreateTicketViewModel
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow rounded-3">
+                <div class="card-header bg-dark text-white text-center">
+                    <h4 class="mb-0">Raise a Support Ticket</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="CreateTicket" method="post">
+                        <div class="mb-3">
+                            <label asp-for="Subject" class="form-label fw-semibold"></label>
+                            <input asp-for="Subject" type="text" class="form-control" id="Subject" name="Subject" required>
+                            <span asp-validation-for="Subject" class="text-danger small"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Description" class="form-label fw-semibold">Description</label>
+                            <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-secondary btn-lg">Submit Ticket</button>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="card-footer text-muted text-center small">
+                    We'll get back to you as soon as possible.
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+</

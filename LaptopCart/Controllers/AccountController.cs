@@ -1,4 +1,5 @@
 ﻿using LaptopCart.Data.Data;
+using LaptopCart.Models;
 using LaptopCart.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,11 +12,13 @@ namespace LaptopCart.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IHttpClientFactory _clientFactory;
 
-        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, IHttpClientFactory clientFactory)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _clientFactory = clientFactory;
         }
 
         // GET: /Account/Register
@@ -64,17 +67,23 @@ namespace LaptopCart.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (!ModelState.IsValid) return View(model);
+           // if(ModelState.IsValid)
+           // {
+                var client = _clientFactory.CreateClient();
+                var response = await client.PostAsJsonAsync("https://localhost:7142/api/Auth/login", model);
+                if (response.IsSuccessStatusCode)
+                {
+                    var tokenResult = await response.Content.ReadFromJsonAsync<TokenResponseModel>();
+                    if (tokenResult != null && !string.IsNullOrEmpty(tokenResult.AccessToken))
+                    {
+                        // Store the token in session or cookie
+                        HttpContext.Session.SetString("JWToken", tokenResult.AccessToken);
+                        var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                        return RedirectToAction("Index", "Product");
+                    }
+                }
 
-            var result = await _signInManager.PasswordSignInAsync(
-                model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
-
-            if (result.Succeeded)
-            {
-                return RedirectToLocal(model.ReturnUrl);
-            }
-
-            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+          //  }
             return View(model);
         }
         [HttpPost]

@@ -20,7 +20,16 @@ namespace LaptopCart.Controllers
         }
         public IActionResult Index()
         {
-            //List<Product> products = _context.Products.ToList();
+            //Products Count display
+           var products = _context.Products.ToList();
+           ViewBag.name = products.Count;
+            //latest product
+            ViewBag.latestProducts = products.OrderByDescending(p => p.CreatedAt)
+                .Select(p => p.Name)
+                .FirstOrDefault() ?? "No Products";
+            //max price
+            ViewBag.MaxPrice = products.Any() ? products.Max(p => p.Price) : 0;
+
             return View(_context.Products.ToList());
         }
         public IActionResult Create()
@@ -63,6 +72,7 @@ namespace LaptopCart.Controllers
             //Server side validation
             if(ModelState.IsValid)
             {
+                product.CreatedAt = DateTime.UtcNow;
                 _context.Products.Add(product);
                 await _context.SaveChangesAsync();
                 TempData["success"] = "Product Created successfully!";

@@ -1,9 +1,13 @@
 ﻿@model IEnumerable<Product>
 
 
+
 <div class="row align-items-center mb-3">
     <div class="col-md-2">
         <h2 class="text-secondary">Product List</h2>
+        <p>Products Count: @ViewBag.name</p>
+        <p>latestProducts:@ViewBag.latestProducts</p>
+        <p>MaxPrice:@ViewBag.MaxPrice</p>
     </div>
     <div class="col-md-10 text-end">
         @if (User.IsInRole("Admin"))
