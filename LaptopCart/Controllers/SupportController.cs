@@ -51,7 +51,7 @@ namespace LaptopCart.Controllers
             catch (Exception ex)
             {
 
-
+            Console.WriteLine(ex.Message);
             }
             return View(model);
         }
@@ -74,6 +74,7 @@ namespace LaptopCart.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
             }
             return RedirectToAction("TicketList");
         }
@@ -98,6 +99,7 @@ namespace LaptopCart.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
             }
             return View(new List<CreateTicketViewModel>());
         }
