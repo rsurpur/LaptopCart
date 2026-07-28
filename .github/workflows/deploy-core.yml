@@ -9,6 +9,9 @@ on:
 jobs:
   build-and-deploy-core:
     runs-on: windows-latest
+    permissions:
+      id-token: write   # required for OIDC login to Azure
+      contents: read    # allows checkout of code
     steps:
       - uses: actions/checkout@v4
 
