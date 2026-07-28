@@ -74,6 +74,7 @@ namespace LaptopCart.Controllers
             }
             catch (Exception ex)
             {
+                //For debugging purpose we are printing the exception message in the console 
                 Console.WriteLine(ex.Message);
             }
             return RedirectToAction("TicketList");
@@ -98,7 +99,8 @@ namespace LaptopCart.Controllers
                 ModelState.AddModelError("", "Unable to fetch tickets");
             }
             catch (Exception ex)
-            {   //For debugging purpose we are printing the exception message in the console 
+            {  
+                //For debugging purpose we are printing the exception message in the console 
                 Console.WriteLine(ex.Message);
             }
             return View(new List<CreateTicketViewModel>());
