@@ -40,6 +40,6 @@ jobs:
       - name: Deploy to Azure WebApp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'LaptopCart'   # must match App Service name in Azure
+          app-name: 'LaptopCartCoreRG'   # must match App Service name in Azure
           slot-name: 'production'
           package: ./publish-web
