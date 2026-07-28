@@ -3,7 +3,7 @@ name: Build and Deploy LaptopCart
 on:
   push:
     branches:
-      - master
+      - master   # change to 'main' if your repo default branch is main
   workflow_dispatch:
 
 jobs:
@@ -18,16 +18,18 @@ jobs:
           dotnet-version: '8.0.x'   # change to 9.x only if project targets it
 
       - name: Restore dependencies
-        run: dotnet restore ./LaptopCart
+        run: dotnet restore ./LaptopCart/LaptopCart.csproj
 
       - name: Build project
-        run: dotnet build ./LaptopCart --configuration Release --no-restore
+        run: dotnet build ./LaptopCart/LaptopCart.csproj --configuration Release --no-restore
 
+      # Optional: only if you have test projects
+      # If no test projects exist, comment this step out
       - name: Run tests
-        run: dotnet test ./LaptopCart --no-build --verbosity normal
+        run: dotnet test ./LaptopCart/LaptopCart.csproj --no-build --verbosity normal
 
       - name: Publish project
-        run: dotnet publish ./LaptopCart -c Release -o ./publish-web
+        run: dotnet publish ./LaptopCart/LaptopCart.csproj -c Release -o ./publish-web
 
       - name: Login to Azure
         uses: azure/login@v2
