@@ -1,4 +1,4 @@
-name: Build and Deploy LaptopCart Core
+name: Build and Deploy LaptopCart
 
 on:
   push:
@@ -18,16 +18,16 @@ jobs:
           dotnet-version: '8.0.x'   # change to 9.x only if project targets it
 
       - name: Restore dependencies
-        run: dotnet restore ./LaptopCartCore
+        run: dotnet restore ./LaptopCart
 
       - name: Build project
-        run: dotnet build ./LaptopCartCore --configuration Release --no-restore
+        run: dotnet build ./LaptopCart --configuration Release --no-restore
 
       - name: Run tests
-        run: dotnet test ./LaptopCartCore --no-build --verbosity normal
+        run: dotnet test ./LaptopCart --no-build --verbosity normal
 
       - name: Publish project
-        run: dotnet publish ./LaptopCartCore -c Release -o ./publish-web
+        run: dotnet publish ./LaptopCart -c Release -o ./publish-web
 
       - name: Login to Azure
         uses: azure/login@v2
