@@ -1,9 +1,10 @@
-name: Deploy LaptopCartCore
+name: Build and Deploy LaptopCart Core
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build-and-deploy-core:
@@ -11,11 +12,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-dotnet@v4
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.x'
+          dotnet-version: '8.0.x'   # change to 9.x only if project targets it
 
-      - run: dotnet publish ./LaptopCartCore -c Release -o ./publish-web
+      - name: Restore dependencies
+        run: dotnet restore ./LaptopCartCore
+
+      - name: Build project
+        run: dotnet build ./LaptopCartCore --configuration Release --no-restore
+
+      - name: Run tests
+        run: dotnet test ./LaptopCartCore --no-build --verbosity normal
+
+      - name: Publish project
+        run: dotnet publish ./LaptopCartCore -c Release -o ./publish-web
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -25,8 +37,9 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
 
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v2
+      - name: Deploy to Azure WebApp
+        uses: azure/webapps-deploy@v3
         with:
-          app-name: 'LaptopCartCore'
+          app-name: 'LaptopCart'   # must match App Service name in Azure
+          slot-name: 'production'
           package: ./publish-web
