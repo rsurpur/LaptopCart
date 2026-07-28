@@ -50,8 +50,8 @@ namespace LaptopCart.Controllers
             }
             catch (Exception ex)
             {
-
-            Console.WriteLine(ex.Message);
+                //For debugging purpose we are printing the exception message in the console 
+                Console.WriteLine(ex.Message);
             }
             return View(model);
         }
