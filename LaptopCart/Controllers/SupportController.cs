@@ -139,7 +139,6 @@ namespace LaptopCart.Controllers
             }
             catch (Exception ex)
             {
-                //For debugging purpose we are printing the exception message in the console 
             }
             return RedirectToAction("TicketList");
         }
