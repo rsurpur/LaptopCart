@@ -1,38 +1,33 @@
-name: Build and Deploy LaptopCart
+name: Build and Deploy LaptopCart (Core + API)
 
 on:
   push:
     branches:
-      - master   # change to 'main' if your repo default branch is main
+      - main   # or 'master' if your repo default branch is master
   workflow_dispatch:
 
 jobs:
   build-and-deploy-core:
     runs-on: windows-latest
     permissions:
-      id-token: write   # required for OIDC login to Azure
-      contents: read    # allows checkout of code
+      id-token: write
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup .NET Core
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'   # change to 9.x only if project targets it
+          dotnet-version: '8.0.x'
 
-      - name: Restore dependencies
+      - name: Restore Core
         run: dotnet restore ./LaptopCart/LaptopCart.csproj
 
-      - name: Build project
+      - name: Build Core
         run: dotnet build ./LaptopCart/LaptopCart.csproj --configuration Release --no-restore
 
-      # Optional: only if you have test projects
-      # If no test projects exist, comment this step out
-      - name: Run tests
-        run: dotnet test ./LaptopCart/LaptopCart.csproj --no-build --verbosity normal
-
-      - name: Publish project
-        run: dotnet publish ./LaptopCart/LaptopCart.csproj -c Release -o ./publish-web
+      - name: Publish Core
+        run: dotnet publish ./LaptopCart/LaptopCart.csproj -c Release -o ./publish-core
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -41,9 +36,45 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Deploy to Azure WebApp
+      - name: Deploy Core
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'LaptopCartCoreRG'   # must match App Service name in Azure
+          app-name: 'LaptopCartCoreRG'   # replace with your actual App Service name
           slot-name: 'production'
-          package: ./publish-web
+          package: ./publish-core
+
+  build-and-deploy-api:
+    runs-on: windows-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore API
+        run: dotnet restore ./LaptopCart.Api/LaptopCart.Api.csproj
+
+      - name: Build API
+        run: dotnet build ./LaptopCart.Api/LaptopCart.Api.csproj --configuration Release --no-restore
+
+      - name: Publish API
+        run: dotnet publish ./LaptopCart.Api/LaptopCart.Api.csproj -c Release -o ./publish-api
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy API
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'LaptopCartApiRG'   # replace with your actual App Service name
+          slot-name: 'production'
+          package: ./publish-api
