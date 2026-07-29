@@ -3,7 +3,7 @@ name: Build and Deploy LaptopCart (Core + API)
 on:
   push:
     branches:
-      - main   # or 'master' if your repo default branch is master
+      - master   # LaptopCart repo default branch
   workflow_dispatch:
 
 jobs:
@@ -13,7 +13,12 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Core
+        uses: actions/checkout@v4
+        with:
+          repository: rsurpur/LaptopCart
+          ref: master
+          path: LaptopCart
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -49,7 +54,12 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout API
+        uses: actions/checkout@v4
+        with:
+          repository: rsurpur/LaptopCart.Api
+          ref: main
+          path: LaptopCart.Api
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
