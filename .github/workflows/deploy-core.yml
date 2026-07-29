@@ -60,6 +60,7 @@ jobs:
           repository: rsurpur/LaptopCart.Api
           ref: main
           path: LaptopCart.Api
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}   # <-- use your PAT here
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
