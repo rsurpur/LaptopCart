@@ -23,7 +23,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '9.0.x'
 
       - name: Restore Core
         run: dotnet restore ./LaptopCart/LaptopCart/LaptopCart.csproj
@@ -64,7 +64,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '9.0.x'
 
       - name: Restore API
         run: dotnet restore ./LaptopCart.Api/LaptopCart.Api/LaptopCart.Api.csproj
